@@ -3,7 +3,11 @@ library pop_bottom_nav;
 import 'package:flutter/material.dart';
 import 'package:pop_bottom_nav/item.dart';
 
+export 'package:pop_bottom_nav/controller.dart';
+export 'package:pop_bottom_nav/item.dart';
+
 class PopBottomNav extends StatefulWidget {
+  final TabController controller;
   final int selected;
   final List<PopNavItem> items;
   final ValueChanged<int> onChanged;
@@ -14,6 +18,7 @@ class PopBottomNav extends StatefulWidget {
 
   const PopBottomNav({
     Key key,
+    this.controller,
     this.selected = 0,
     @required this.items,
     this.onChanged,
@@ -36,9 +41,41 @@ class PopBottomNavState extends State<PopBottomNav> {
 
   @override
   void initState() {
+    widget.controller?.addListener(_onControllerChange);
     _selected = widget.selected ?? 0;
 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    widget.controller?.removeListener(_onControllerChange);
+
+    super.dispose();
+  }
+
+  void _onControllerChange() {
+    final index = widget.controller.index;
+
+    if (index != _selected) {
+      _selected = index;
+
+      setState(() {});
+
+      widget.onChanged?.call(_selected);
+    }
+  }
+
+  void _onPageChange(int to) {
+    widget.controller?.index = to;
+
+    if (to != _selected) {
+      _selected = to;
+
+      setState(() {});
+
+      widget.onChanged?.call(_selected);
+    }
   }
 
   Widget _buildItem(
@@ -49,14 +86,8 @@ class PopBottomNavState extends State<PopBottomNav> {
   ) =>
       Expanded(
         child: Center(
-          child: InkWell(
-            onTap: () {
-              _selected = index;
-
-              setState(() {});
-
-              widget.onChanged?.call(_selected);
-            },
+          child: GestureDetector(
+            onTap: () => _onPageChange(index),
             child: AnimatedContainer(
               duration: widget.duration,
               decoration: item.decorationBuilder?.call(selected) ??
@@ -73,11 +104,16 @@ class PopBottomNavState extends State<PopBottomNav> {
                     ],
                   ),
               height: 34,
-              width: selected ? 70 + (item.title ?? "").length * 5.0 : 34,
+              width: selected
+                  ? 34 +
+                      (item.title.isNotEmpty
+                          ? (item.title ?? "").length * 5.0 + 36
+                          : 0)
+                  : 34,
               child: Padding(
-                padding: selected
+                padding: selected && item.title.isNotEmpty
                     ? const EdgeInsets.symmetric(
-                        vertical: 6,
+                        vertical: 8,
                         horizontal: 10,
                       )
                     : const EdgeInsets.symmetric(
@@ -92,25 +128,35 @@ class PopBottomNavState extends State<PopBottomNav> {
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 4,
                               ),
-                              child: item.activeIcon ?? item.icon,
+                              child: IconTheme(
+                                  data: IconThemeData(
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                  child: item.activeIcon ?? item.icon),
                             ),
                           ),
-                          Flexible(
-                            flex: 2,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 4,
-                              ),
-                              child: Text(
-                                item.title ?? "",
-                                maxLines: 1,
-                                overflow: TextOverflow.clip,
+                          if (item.title.isNotEmpty)
+                            Flexible(
+                              flex: 2,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 4,
+                                ),
+                                child: Text(
+                                  item.title ?? "",
+                                  maxLines: 1,
+                                  overflow: TextOverflow.clip,
+                                ),
                               ),
                             ),
-                          ),
                         ],
                       )
-                    : item.icon,
+                    : IconTheme(
+                        data: IconThemeData(
+                          color: Colors.white,
+                        ),
+                        child: item.icon,
+                      ),
               ),
             ),
           ),

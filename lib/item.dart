@@ -9,7 +9,7 @@ class PopNavItem {
   final DecorationBuilder decorationBuilder;
 
   PopNavItem({
-    this.icon,
+    @required this.icon,
     this.activeIcon,
     this.title,
     this.decorationBuilder,

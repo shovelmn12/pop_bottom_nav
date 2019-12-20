@@ -1,7 +1,6 @@
 name: pop_bottom_nav
 description: Pop bottom navigation, simple to use and bueatiful with animations.
-version: 0.0.2+2
-author: Shovel Maman <shovelmn12@gmail.com>
+version: 0.0.3
 homepage: https://github.com/shovelmn12/pop_bottom_nav
 
 environment:

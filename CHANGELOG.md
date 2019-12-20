@@ -1,3 +1,6 @@
+## [0.0.3]
+    -Expanding selected item.
+
 ## [0.0.2+2]
     -Removed PageController.
     -Added TabController.

@@ -1,3 +1,7 @@
+## [0.0.3+1]
+    -Expansion changed.
+    -Added RepaintBounder for each TabItem.
+
 ## [0.0.3]
     -Expanding selected item.
 

@@ -15,74 +15,76 @@ class ItemWidget extends StatelessWidget {
         super(key: key);
 
   @override
-  Widget build(BuildContext context) => AnimatedContainer(
-        duration: duration,
-        decoration: item.decorationBuilder?.call(selected) ??
-            BoxDecoration(
-              borderRadius: BorderRadius.circular(100),
-              color: selected ? Colors.white : Colors.transparent,
-              boxShadow: [
-                if (selected)
-                  BoxShadow(
-                    offset: Offset(8, 0),
-                    color: Theme.of(context).primaryColor.withOpacity(.6),
-                    blurRadius: 94,
+  Widget build(BuildContext context) => RepaintBoundary(
+        child: AnimatedContainer(
+          duration: duration,
+          decoration: item.decorationBuilder?.call(selected) ??
+              BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                color: selected ? Colors.white : Colors.transparent,
+                boxShadow: [
+                  if (selected)
+                    BoxShadow(
+                      offset: Offset(8, 0),
+                      color: Theme.of(context).primaryColor.withOpacity(.6),
+                      blurRadius: 94,
+                    )
+                ],
+              ),
+          height: 34,
+          width: selected
+              ? 34 +
+                  (item.title.isNotEmpty
+                      ? (item.title ?? "").length * 6.0 + 36
+                      : 0)
+              : 34,
+          child: Padding(
+            padding: selected && item.title.isNotEmpty
+                ? const EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 10,
                   )
-              ],
-            ),
-        height: 34,
-        width: selected
-            ? 34 +
-                (item.title.isNotEmpty
-                    ? (item.title ?? "").length * 6.0 + 36
-                    : 0)
-            : 34,
-        child: Padding(
-          padding: selected && item.title.isNotEmpty
-              ? const EdgeInsets.symmetric(
-                  vertical: 8,
-                  horizontal: 10,
-                )
-              : const EdgeInsets.symmetric(
-                  vertical: 8,
-                ),
-          child: selected
-              ? Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Flexible(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 4,
-                        ),
-                        child: IconTheme(
-                            data: IconThemeData(
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            child: item.activeIcon ?? item.icon),
-                      ),
-                    ),
-                    if (item.title.isNotEmpty)
+                : const EdgeInsets.symmetric(
+                    vertical: 8,
+                  ),
+            child: selected
+                ? Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
                       Flexible(
-                        flex: 2,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 4,
                           ),
-                          child: Text(
-                            item.title ?? "",
-                            overflow: TextOverflow.clip,
-                          ),
+                          child: IconTheme(
+                              data: IconThemeData(
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              child: item.activeIcon ?? item.icon),
                         ),
                       ),
-                  ],
-                )
-              : IconTheme(
-                  data: IconThemeData(
-                    color: Colors.white,
+                      if (item.title.isNotEmpty)
+                        Flexible(
+                          flex: 2,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 4,
+                            ),
+                            child: Text(
+                              item.title ?? "",
+                              overflow: TextOverflow.clip,
+                            ),
+                          ),
+                        ),
+                    ],
+                  )
+                : IconTheme(
+                    data: IconThemeData(
+                      color: Colors.white,
+                    ),
+                    child: item.icon,
                   ),
-                  child: item.icon,
-                ),
+          ),
         ),
       );
 }

@@ -85,17 +85,12 @@ class PopBottomNavState extends State<PopBottomNav> {
     int index,
     bool selected,
   ) =>
-      Expanded(
-        flex: selected ? 2 : 1,
-        child: Center(
-          child: GestureDetector(
-            onTap: () => _onPageChange(index),
-            child: ItemWidget(
-              duration: widget.duration,
-              item: item,
-              selected: selected,
-            ),
-          ),
+      GestureDetector(
+        onTap: () => _onPageChange(index),
+        child: ItemWidget(
+          duration: widget.duration,
+          item: item,
+          selected: selected,
         ),
       );
 
@@ -103,7 +98,6 @@ class PopBottomNavState extends State<PopBottomNav> {
   Widget build(BuildContext context) => Material(
         textStyle: widget.textStyle ??
             Theme.of(context).textTheme.caption.copyWith(
-                  fontSize: 14,
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).primaryColor,
                 ),
@@ -122,6 +116,7 @@ class PopBottomNavState extends State<PopBottomNav> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: widget.items.map(
                 (i) {
                   final index = widget.items.indexOf(i);

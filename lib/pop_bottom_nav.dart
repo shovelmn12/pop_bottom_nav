@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:pop_bottom_nav/item.dart';
 import 'package:pop_bottom_nav/item_widget.dart';
 
-export 'package:pop_bottom_nav/controller.dart';
 export 'package:pop_bottom_nav/item.dart';
 
 class PopBottomNav extends StatefulWidget {

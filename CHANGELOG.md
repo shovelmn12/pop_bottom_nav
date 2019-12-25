@@ -1,3 +1,6 @@
+## [0.0.3+2]
+    -Removed Controller class.
+
 ## [0.0.3+1]
     -Expansion changed.
     -Added RepaintBounder for each TabItem.

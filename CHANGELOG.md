@@ -1,3 +1,6 @@
+## [0.0.3+3]
+    -Centered Text.
+
 ## [0.0.3+2]
     -Removed Controller class.
 

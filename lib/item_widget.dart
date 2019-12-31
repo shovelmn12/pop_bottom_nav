@@ -49,7 +49,6 @@ class ItemWidget extends StatelessWidget {
                   ),
             child: selected
                 ? Row(
-                    mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       Flexible(
                         child: Padding(
@@ -73,6 +72,7 @@ class ItemWidget extends StatelessWidget {
                             child: Text(
                               item.title ?? "",
                               overflow: TextOverflow.clip,
+                              textAlign: TextAlign.center,
                             ),
                           ),
                         ),

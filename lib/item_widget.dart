@@ -32,12 +32,6 @@ class ItemWidget extends StatelessWidget {
                 ],
               ),
           height: 34,
-          width: selected
-              ? 34 +
-                  (item.title.isNotEmpty
-                      ? (item.title ?? "").length * 6.0 + 36
-                      : 0)
-              : 34,
           child: Padding(
             padding: selected && item.title.isNotEmpty
                 ? const EdgeInsets.symmetric(
@@ -49,6 +43,7 @@ class ItemWidget extends StatelessWidget {
                   ),
             child: selected
                 ? Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       Flexible(
                         child: Padding(
@@ -66,8 +61,9 @@ class ItemWidget extends StatelessWidget {
                         Flexible(
                           flex: 2,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 4,
+                            padding: const EdgeInsetsDirectional.only(
+                              start: 8,
+                              end: 12,
                             ),
                             child: Text(
                               item.title ?? "",

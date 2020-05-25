@@ -12,6 +12,7 @@ class PopBottomNav extends StatefulWidget {
   final List<PopNavItem> items;
   final ValueChanged<int> onChanged;
   final BoxDecoration decoration;
+  final EdgeInsets padding;
   final double height;
   final Duration duration;
   final TextStyle textStyle;
@@ -25,6 +26,7 @@ class PopBottomNav extends StatefulWidget {
     this.decoration,
     this.height = 75,
     this.duration = const Duration(milliseconds: 200),
+    this.padding = const EdgeInsets.symmetric(horizontal: 4),
     this.textStyle,
   })  : assert(selected != null),
         assert(items != null),
@@ -84,12 +86,17 @@ class PopBottomNavState extends State<PopBottomNav> {
     int index,
     bool selected,
   ) =>
-      GestureDetector(
-        onTap: () => _onPageChange(index),
-        child: ItemWidget(
-          duration: widget.duration,
-          item: item,
-          selected: selected,
+      Expanded(
+        flex: selected ? 5 : 2,
+        child: Align(
+          child: GestureDetector(
+            onTap: () => _onPageChange(index),
+            child: ItemWidget(
+              duration: widget.duration,
+              item: item,
+              selected: selected,
+            ),
+          ),
         ),
       );
 
@@ -113,7 +120,7 @@ class PopBottomNavState extends State<PopBottomNav> {
                 ),
               ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
+            padding: widget.padding,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: widget.items.map(

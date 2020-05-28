@@ -1,3 +1,6 @@
+## [0.0.4]
+    -Overflow Tab Text Fix
+
 ## [0.0.3+3]
     -Centered Text.
 
